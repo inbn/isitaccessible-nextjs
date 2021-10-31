@@ -1,3 +1,20 @@
+# Is it accessible?
+
+## Local setup
+
+1. [Generate a new Personal Access Token](https://github.com/settings/tokens) from your GitHub account.
+2. Duplicate `.env.example` and call it `.env`. Add your `GITHUB_API_TOKEN`.
+
+## Styling
+
+Sass is used for styling. There are two types of styles used in the app:
+
+1. **Global styles**: These live in the `./styles` folder in the root of the app and apply globally. Use these for CSS resets, global variables, and generic element styles. e.g. headings, lists.
+
+2. **Component styles**: These live alongside each component and use [CSS modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css) (with SCSS syntax). The filename format is: `<component_name>.module.scss`. e.g. `SearchForm.module.scss`. Class names from the CSS module are automatically rewritten to be locally scoped. Instead of using hyphens in class names, use camelCase.
+
+# Readme from Create-next-app
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

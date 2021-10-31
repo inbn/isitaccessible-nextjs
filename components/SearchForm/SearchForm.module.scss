@@ -1,0 +1,18 @@
+.container {
+  position: relative;
+}
+
+// .input {}
+
+.results {
+  max-height: 16rem;
+  overflow-y: scroll;
+  position: absolute;
+  width: 100%;
+}
+
+.result {
+  &[aria-selected='true'] {
+    background-color: lightblue;
+  }
+}

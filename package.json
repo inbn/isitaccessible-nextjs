@@ -6,17 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier '**/*.(ts|tsx|js)'",
+    "styles:lint": "stylelint '**/*.(css|scss)'",
+    "styles:fix": "stylelint '**/*.(css|scss)' --fix",
+    "styles:prettier": "prettier --write '**/*.(css|scss)'",
+    "type-check": "tsc"
   },
   "dependencies": {
+    "@octokit/core": "^3.5.1",
+    "@rooks/use-key": "^4.11.2",
+    "classnames": "^2.3.1",
+    "dotenv": "^10.0.0",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@octokit/types": "^6.34.0",
     "@types/react": "17.0.15",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
+    "postcss-scss": "^4.0.2",
+    "sass": "^1.42.1",
+    "stylelint": "^14.0.1",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-standard-scss": "^2.0.0",
     "typescript": "4.3.5"
   }
 }
