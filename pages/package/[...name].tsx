@@ -2,9 +2,11 @@ import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { Endpoints } from '@octokit/types'
 
-import { fetchGitHubIssues} from '../../lib/github-issues'
+import { fetchGitHubIssues } from '../../lib/github-issues'
 
-type searchIssuesResponse = Endpoints['GET /search/issues']['response']
+type SearchIssuesResponse = Endpoints['GET /search/issues']['response']
+
+import Center from '../../components/layouts/Center'
 
 // Test with:
 // git+https://github.com/facebook/react.git
@@ -41,8 +43,8 @@ interface Props {
   homepageUrl: string
   description: string
   repo: string
-  openIssues: searchIssuesResponse['data']['items']
-  closedIssues: searchIssuesResponse['data']['items']
+  openIssues: SearchIssuesResponse['data']['items']
+  closedIssues: SearchIssuesResponse['data']['items']
 }
 
 export default function Package({
@@ -60,58 +62,77 @@ export default function Package({
       </Head>
 
       <main>
-        <h1>{name}</h1>
-        {!!description && <p>{description}</p>}
+        <Center>
+          <h1>{name}</h1>
+          {!!description && <p>{description}</p>}
 
-        <h2>Links</h2>
+          <h2>Links</h2>
 
-        <ul>
-          <li>
-            <a href={`https://www.npmjs.com/package/${name}`}>NPM</a>
-          </li>
-          <li>
-            <a href={`https://github.com/${repo}`}>GitHub</a>
-          </li>
-          {!!homepageUrl && (
+          <ul>
             <li>
-              <a href={processHomepageUrl(homepageUrl)}>Homepage</a>
+              <a href={`https://www.npmjs.com/package/${name}`}>NPM</a>
             </li>
+            <li>
+              <a href={`https://github.com/${repo}`}>GitHub</a>
+            </li>
+            {!!homepageUrl && (
+              <li>
+                <a href={processHomepageUrl(homepageUrl)}>Homepage</a>
+              </li>
+            )}
+          </ul>
+
+          <h2>GitHub issues</h2>
+
+          <p>Mentioning ‘accessibility’, ‘a11y’, ‘aria’, or ‘screenreader’.</p>
+
+          <dl>
+            <div>
+              <dt>Open</dt>
+              <dd>
+                <a
+                  href={`https://github.com/${repo}/issues?q=is%3Aissue+is%3Aopen+accessibility+OR+a11y+OR+aria+OR+screenreader`}
+                >
+                  {openIssues.length}
+                </a>
+              </dd>
+            </div>
+
+            <div>
+              <dt>Closed</dt>
+              <dd>
+                <a
+                  href={`https://github.com/${repo}/issues?q=is%3Aissue+is%3Aclosed+accessibility+OR+a11y+OR+aria+OR+screenreader`}
+                >
+                  {closedIssues.length}
+                </a>
+              </dd>
+            </div>
+          </dl>
+
+          {!!openIssues && openIssues.length > 0 && (
+            <>
+              <h3>Open issues</h3>
+
+              <ul>
+                {openIssues.map(({ html_url, title, created_at }) => (
+                  <li key={html_url}>
+                    <a href={html_url}>{title}</a>
+                    <span>({getDaysSinceDate(created_at)} days old)</span>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
-        </ul>
-
-        <h2>GitHub issues</h2>
-
-        <p>Mentioning ‘accessibility’, ‘a11y’, ‘aria’, or ‘screenreader’.</p>
-
-        <dl>
-          <div>
-            <dt>Open</dt>
-            <dd><a href={`https://github.com/${repo}/issues?q=is%3Aissue+is%3Aopen+accessibility+OR+a11y+OR+aria+OR+screenreader`}>{openIssues.length}</a></dd>
-          </div>
-
-          <div>
-            <dt>Closed</dt>
-            <dd><a href={`https://github.com/${repo}/issues?q=is%3Aissue+is%3Aclosed+accessibility+OR+a11y+OR+aria+OR+screenreader`}>{closedIssues.length}</a></dd>
-          </div>
-        </dl>
-
-        {!!openIssues && openIssues.length > 0 && (
-          <>
-            <h3>Open issues</h3>
-
-            <ul>
-              {openIssues.map(({ html_url, title, created_at }) => (
-                <li key={html_url}>
-                  <a href={html_url}>{title}</a>
-                  <span>({getDaysSinceDate(created_at)} days old)</span>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+        </Center>
       </main>
 
-      <footer>Disclaimer: The content of this site should be used as a guide only. A package with no accessibility-related GitHub issues does not guarantee an accessible package. A package with no accessibility issues can still be used to build something inaccessible.</footer>
+      <footer>
+        Disclaimer: The content of this site should be used as a guide only. A
+        package with no accessibility-related GitHub issues does not guarantee
+        an accessible package. A package with no accessibility issues can still
+        be used to build something inaccessible.
+      </footer>
     </div>
   )
 }
@@ -178,9 +199,7 @@ export const getStaticProps: PackagePageStaticProps = async ({ params }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   // List of all npm packages: https://replicate.npmjs.com/_all_docs
   // Can be paginated: https://docs.couchdb.org/en/stable/ddocs/views/pagination.html#paging
-  const packages = [
-    ['react']
-  ]
+  const packages = [['react']]
   // Generate an array of paths we want to pre-render
   const paths = packages.map((name) => ({
     params: { name },
@@ -191,4 +210,3 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // on-demand if the path doesn’t exist.
   return { paths, fallback: 'blocking' }
 }
-
