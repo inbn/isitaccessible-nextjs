@@ -7,6 +7,7 @@ import { fetchGitHubIssues } from '../../lib/github-issues'
 type SearchIssuesResponse = Endpoints['GET /search/issues']['response']
 
 import Center from '../../components/layouts/Center'
+import Icon from '../../components/Icon/Icon'
 
 // Test with:
 // git+https://github.com/facebook/react.git
@@ -70,14 +71,14 @@ export default function Package({
 
           <ul>
             <li>
-              <a href={`https://www.npmjs.com/package/${name}`}>NPM</a>
+              <a href={`https://www.npmjs.com/package/${name}`}><Icon name="npm" />NPM</a>
             </li>
             <li>
-              <a href={`https://github.com/${repo}`}>GitHub</a>
+              <a href={`https://github.com/${repo}`}><Icon name="github" />GitHub</a>
             </li>
             {!!homepageUrl && (
               <li>
-                <a href={processHomepageUrl(homepageUrl)}>Homepage</a>
+                <a href={processHomepageUrl(homepageUrl)}><Icon name="home" />Homepage</a>
               </li>
             )}
           </ul>

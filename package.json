@@ -11,7 +11,8 @@
     "styles:lint": "stylelint '**/*.(css|scss)'",
     "styles:fix": "stylelint '**/*.(css|scss)' --fix",
     "styles:prettier": "prettier --write '**/*.(css|scss)'",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "generate-svg-sprite": "svg-sprite -s --symbol-dest public --symbol-sprite icons.svg icons/*.svg"
   },
   "dependencies": {
     "@octokit/core": "^3.5.1",
@@ -35,6 +36,7 @@
     "stylelint": "^14.0.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard-scss": "^2.0.0",
+    "svg-sprite": "^1.5.3",
     "typescript": "4.3.5"
   }
 }
