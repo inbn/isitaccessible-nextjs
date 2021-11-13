@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier '**/*.(ts|tsx|js)'",
-    "pretty-quick": "pretty-quick --staged --pattern '**/*.(ts|tsx|js)'",
     "styles:lint": "stylelint '**/*.(css|scss)'",
     "styles:fix": "stylelint '**/*.(css|scss)' --fix",
     "styles:prettier": "prettier --write '**/*.(css|scss)'",
@@ -21,6 +20,7 @@
     "@rooks/use-key": "^4.11.2",
     "classnames": "^2.3.1",
     "dotenv": "^10.0.0",
+    "lint-staged": "^11.2.6",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -36,7 +36,6 @@
     "husky": "^7.0.4",
     "postcss-scss": "^4.0.2",
     "prettier": "^2.4.1",
-    "pretty-quick": "^3.1.1",
     "sass": "^1.42.1",
     "stylelint": "^14.0.1",
     "stylelint-config-prettier": "^9.0.3",

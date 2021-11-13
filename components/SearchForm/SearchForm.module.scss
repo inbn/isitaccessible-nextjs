@@ -37,7 +37,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 0 $border-radius-base $border-radius-base 0;
-  transition: background-color $transition-time-fast $transition-ease, color $transition-time-fast $transition-ease;
+  transition: background-color $transition-time-fast $transition-ease,
+    color $transition-time-fast $transition-ease;
 
   &:hover,
   &:focus {
