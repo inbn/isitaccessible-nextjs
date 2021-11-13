@@ -13,6 +13,14 @@ Sass is used for styling. There are two types of styles used in the app:
 
 2. **Component styles**: These live alongside each component and use [CSS modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css) (with SCSS syntax). The filename format is: `<component_name>.module.scss`. e.g. `SearchForm.module.scss`. Class names from the CSS module are automatically rewritten to be locally scoped. Instead of using hyphens in class names, use camelCase.
 
+### Icons
+
+Use the `Icon` component for rendering icons. To add a new icon, place it in the icons directory then run the command, `npm run generate-svg-sprite`. The `name` prop passed to the `Icon` component should match the name of the original SVG file. e.g. to render the icon, search.svg:
+
+```jsx
+<Icon name="search" />
+```
+
 # Readme from Create-next-app
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
