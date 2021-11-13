@@ -1,18 +1,84 @@
+@use '../../styles/tokens' as *;
+
 .container {
   position: relative;
 }
 
-// .input {}
+.form {
+  position: relative;
+}
+
+.input {
+  font-size: $font-size-xlarge;
+  height: $space-12;
+  padding: $space-3 $space-12 $space-3 $space-4;
+  border-radius: $border-radius-base;
+  border: 1px solid $grey-400;
+
+  &.open {
+    border-radius: $border-radius-base $border-radius-base 0 0;
+  }
+
+  &:focus {
+    outline: 4px solid $blue-300;
+  }
+}
+
+.submit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  background-color: transparent;
+  width: $space-12;
+  height: $space-12;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 $border-radius-base $border-radius-base 0;
+  transition: background-color $transition-time-fast $transition-ease, color $transition-time-fast $transition-ease;
+
+  &:hover,
+  &:focus {
+    background-color: $blue-300;
+    color: $white;
+  }
+}
 
 .results {
   max-height: 16rem;
+  width: 100%;
   overflow-y: scroll;
   position: absolute;
-  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid $grey-400;
+  border-top: 0;
+  border-radius: 0 0 $border-radius-base $border-radius-base;
+  background-color: $white;
 }
 
 .result {
-  &[aria-selected='true'] {
-    background-color: lightblue;
+  cursor: default;
+  padding: $space-2 $space-4;
+
+  &:not(:first-child) {
+    border-top: 1px solid $grey-300;
   }
+
+  &[aria-selected='true'] {
+    background-color: $blue-100;
+  }
+}
+
+.packageName {
+  font-weight: 700;
+}
+
+.packageDescription {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

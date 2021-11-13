@@ -1,6 +1,35 @@
 // Colours
 $black: #000;
 $white: #fff;
+$grey-50: #F0F1F2;
+$grey-100: #d5ddf7;
+$grey-150: #D3D4D7;
+$grey-200: #C5C6CA;
+$grey-300: #A9ABB0;
+$grey-400: #8E9196;
+$grey-500: #74777B;
+$grey-600: #5B5D61;
+$grey-700: #424347;
+$grey-800: #292A2C;
+$grey-900: #111112;
+$blue-0: #E8F0FF;
+$blue-50: #C8D6F2;
+$blue-100: #AABDE5;
+$blue-150: #90A6D7;
+$blue-200: #90A6D7;
+$blue-300: #506CB0;
+$blue-400: #345096;
+$blue-500: #203A7B;
+$blue-600: #142961;
+$blue-700: #0B1B47;
+$blue-800: #0B1B47;
+$blue-900: #020612;
+
+// Font sizes
+$font-size-base: 1rem;
+$font-size-large: 1.25rem;
+$font-size-xlarge: 1.5rem;
+$font-size-small: 0.875rem;
 
 // Spaces
 $space-1: 0.25rem;
@@ -22,3 +51,15 @@ $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
+
+// Border radii
+$border-radius-base: 0.25rem;
+$border-radius-large: 0.5rem;
+$border-radius-small: 0.125rem;
+$border-radius-xsmall: 0.0625rem;
+
+// Transitions
+$transition-time: 0.25s;
+$transition-time-slow: 0.5s;
+$transition-time-fast: 0.125s;
+$transition-ease: ease-in-out;
