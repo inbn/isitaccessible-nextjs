@@ -1,13 +1,13 @@
-import Head from 'next/head'
-import { GetStaticProps, GetStaticPaths } from 'next'
 import { Endpoints } from '@octokit/types'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
 
+import Icon from '../../components/Icon/Icon'
+import Center from '../../components/layouts/Center'
+import Page from '../../components/layouts/Page'
 import { fetchGitHubIssues } from '../../lib/github-issues'
 
 type SearchIssuesResponse = Endpoints['GET /search/issues']['response']
-
-import Center from '../../components/layouts/Center'
-import Icon from '../../components/Icon/Icon'
 
 // Test with:
 // git+https://github.com/facebook/react.git
@@ -57,12 +57,12 @@ export default function Package({
   closedIssues,
 }: Props) {
   return (
-    <div>
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>{name} | Is it accessible?</title>
       </Head>
 
-      <main>
+      <Page>
         <Center>
           <h1>{name}</h1>
           {!!description && <p>{description}</p>}
@@ -71,14 +71,23 @@ export default function Package({
 
           <ul>
             <li>
-              <a href={`https://www.npmjs.com/package/${name}`}><Icon name="npm" />NPM</a>
+              <a href={`https://www.npmjs.com/package/${name}`}>
+                <Icon name="npm" />
+                NPM
+              </a>
             </li>
             <li>
-              <a href={`https://github.com/${repo}`}><Icon name="github" />GitHub</a>
+              <a href={`https://github.com/${repo}`}>
+                <Icon name="github" />
+                GitHub
+              </a>
             </li>
             {!!homepageUrl && (
               <li>
-                <a href={processHomepageUrl(homepageUrl)}><Icon name="home" />Homepage</a>
+                <a href={processHomepageUrl(homepageUrl)}>
+                  <Icon name="home" />
+                  Homepage
+                </a>
               </li>
             )}
           </ul>
@@ -126,15 +135,8 @@ export default function Package({
             </>
           )}
         </Center>
-      </main>
-
-      <footer>
-        Disclaimer: The content of this site should be used as a guide only. A
-        package with no accessibility-related GitHub issues does not guarantee
-        an accessible package. A package with no accessibility issues can still
-        be used to build something inaccessible.
-      </footer>
-    </div>
+      </Page>
+    </>
   )
 }
 
@@ -164,7 +166,6 @@ export const getStaticProps: PackagePageStaticProps = async ({ params }) => {
   }
 
   const metadata = data.collected.metadata
-  // console.log(data.collected.metadata)
 
   const name = metadata?.name || null
   const description = metadata?.description || null
@@ -200,6 +201,7 @@ export const getStaticProps: PackagePageStaticProps = async ({ params }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   // List of all npm packages: https://replicate.npmjs.com/_all_docs
   // Can be paginated: https://docs.couchdb.org/en/stable/ddocs/views/pagination.html#paging
+  // TODO get most commonly searched packages from analytics
   const packages = [['react']]
   // Generate an array of paths we want to pre-render
   const paths = packages.map((name) => ({

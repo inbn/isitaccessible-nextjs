@@ -1,8 +1,9 @@
-const { Octokit } = require('@octokit/core')
 import { Endpoints } from '@octokit/types'
 
-type searchIssuesResponse = Endpoints['GET /search/issues']['response']
-type getRepoResponse = Endpoints['GET /repos/{owner}/{repo}']['response']
+const { Octokit } = require('@octokit/core')
+
+type SearchIssuesResponse = Endpoints['GET /search/issues']['response']
+type GetRepoResponse = Endpoints['GET /repos/{owner}/{repo}']['response']
 
 export const fetchGitHubIssues = async (repo: string) => {
   let fullRepoName = repo
@@ -17,7 +18,7 @@ export const fetchGitHubIssues = async (repo: string) => {
   // TODO this could be DRYer but I don't have the energy to do it right now
   do {
     try {
-      const gitHubIssuesResponse: searchIssuesResponse = await octokit.request(
+      const gitHubIssuesResponse: SearchIssuesResponse = await octokit.request(
         'GET /search/issues',
         {
           q: `accessibility OR a11y OR aria OR screenreader repo:${fullRepoName} type:issue`,
@@ -36,15 +37,16 @@ export const fetchGitHubIssues = async (repo: string) => {
     } catch (error) {
       // The search end point may error if a user moves a repo but doesn't
       // update npm. Check the repo endpoint to see if it has moved
+      // TODO what to do if this also fails?
       const [userName, repoName] = repo.split('/')
-      const gitHubRepoResponse: getRepoResponse = await octokit.request(
+      const gitHubRepoResponse: GetRepoResponse = await octokit.request(
         `GET /repos/${userName}/${repoName}`
       )
 
       if (gitHubRepoResponse.data.full_name !== repo) {
         fullRepoName = gitHubRepoResponse.data.full_name
 
-        const gitHubIssuesResponse: searchIssuesResponse =
+        const gitHubIssuesResponse: SearchIssuesResponse =
           await octokit.request('GET /search/issues', {
             q: `accessibility OR a11y OR aria OR screenreader repo:${fullRepoName} type:issue`,
             per_page: 100,
