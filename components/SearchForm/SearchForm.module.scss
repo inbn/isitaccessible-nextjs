@@ -6,6 +6,8 @@
 
 .form {
   position: relative;
+  border-radius: $border-radius-base;
+  box-shadow: 2px 2px 8px 4px rgb(15 15 15 / 10%);
 }
 
 .input {
@@ -14,6 +16,7 @@
   padding: $space-3 $space-12 $space-3 $space-4;
   border-radius: $border-radius-base;
   border: 1px solid $grey-400;
+  width: 100%;
 
   &.open {
     border-radius: $border-radius-base $border-radius-base 0 0;
@@ -48,7 +51,7 @@
 }
 
 .results {
-  max-height: 16rem;
+  max-height: calc(16rem + 1px);
   width: 100%;
   overflow-y: scroll;
   position: absolute;
@@ -67,6 +70,7 @@
 
   &:not(:first-child) {
     border-top: 1px solid $grey-300;
+    padding-top: calc(#{$space-2} - 1px);
   }
 
   &[aria-selected='true'] {

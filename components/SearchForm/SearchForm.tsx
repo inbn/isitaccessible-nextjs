@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState, MouseEvent } from 'react'
+import useKey from '@rooks/use-key'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
-import useKey from '@rooks/use-key'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
 
-import { getSuggestions, Package } from '../../lib/npm-packages'
-
+import { Package, getSuggestions } from '../../lib/npm-packages'
 import Icon from '../Icon/Icon'
 import VisuallyHidden from '../VisuallyHidden/VisuallyHidden'
-
 import styles from './SearchForm.module.scss'
 
 const SearchForm: React.FC = () => {
@@ -195,6 +193,7 @@ const SearchForm: React.FC = () => {
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
+          placeholder="Start typing a package name"
         />
         <ol
           id="search-results-listbox"
