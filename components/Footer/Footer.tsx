@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
               Have an idea for a feature? Create an Issue or Pull Request on{' '}
               <a
                 href="https://github.com/inbn/isitaccessible-nextjs"
-                className={classNames(styles.socialLink, 'with-icon')}
+                className={classNames(styles.socialLink, 'withIcon')}
               >
                 <Icon name="github" className={styles.socialIcon} />
                 GitHub
