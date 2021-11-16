@@ -1,0 +1,22 @@
+@use '../_tokens' as *;
+
+/**
+ * An equal-width column grid
+ * Set the width on the children with the `grid-column` property
+ * (columns default to full width)
+ */
+@mixin full-column() {
+  grid-column: 1 / -1;
+}
+
+@mixin main-grid($columns: 12, $column-gap: 1rem, $row-gap: 0) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  grid-column-gap: $column-gap;
+  row-gap: $row-gap;
+
+  // Children are full width by default
+  > * {
+    @include full-column;
+  }
+}

@@ -1,0 +1,35 @@
+@use '../../styles/_tokens' as *;
+@use '../../styles/mixins/grid' as *;
+
+.footer {
+  font-size: $font-size-small;
+  background-color: $grey-50;
+  padding: $space-8 0;
+}
+
+.grid {
+  --columns: 2;
+  --column-gap: #{$space-16};
+  --row-gap: #{$space-16};
+
+  @include main-grid(
+    #{var(--columns)},
+    #{var(--column-gap)},
+    #{var(--row-gap)}
+  );
+
+  @media (min-width: 768px) {
+    > * {
+      grid-column: auto;
+    }
+  }
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.socialIcon {
+  margin-right: $space-1;
+}
