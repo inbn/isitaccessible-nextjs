@@ -27,6 +27,24 @@
   }
 }
 
+// stylelint-disable selector-pseudo-class-no-unknown, selector-no-vendor-prefix, no-descending-specificity
+.input::-webkit-input-placeholder {
+  font-size: $font-size-base;
+}
+
+.input::-moz-placeholder {
+  font-size: $font-size-base;
+}
+
+.input:-ms-input-placeholder {
+  font-size: $font-size-base;
+}
+
+.input:-moz-placeholder {
+  font-size: $font-size-base;
+}
+// stylelint-enable selector-pseudo-class-no-unknown, selector-no-vendor-prefix, no-descending-specificity
+
 .submit {
   position: absolute;
   right: 0;

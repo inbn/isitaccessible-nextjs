@@ -7,6 +7,7 @@ interface Props {
   maxWidth?: string
   centerContentsHorizontally?: boolean
   centerContentsVertically?: boolean
+  stretchContentsHorizontally?: boolean
 }
 
 const Center: React.FC<Props> = ({
@@ -14,6 +15,7 @@ const Center: React.FC<Props> = ({
   maxWidth,
   centerContentsHorizontally = false,
   centerContentsVertically = false,
+  stretchContentsHorizontally = false,
 }) => {
   const customProperties = { '--max-width': maxWidth } as React.CSSProperties
 
@@ -23,6 +25,7 @@ const Center: React.FC<Props> = ({
         [styles.center]: true,
         [styles.centerContentsHorizontally]: centerContentsHorizontally,
         [styles.centerContentsVertically]: centerContentsVertically,
+        [styles.stretchContentsHorizontally]: stretchContentsHorizontally,
       })}
       style={customProperties}
     >

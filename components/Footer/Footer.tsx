@@ -14,10 +14,10 @@ const Footer: React.FC = () => {
             <h2>About</h2>
             <p>
               When choosing a third-party library, it’s common to take into
-              account its impact on performance, but what about its impact on
-              accessibility? <em>IsItAccessible.dev</em> aggregates
-              accessibility-related issues from GitHub to help you quickly make
-              an informed decision.
+              account its impact on bundle size and performance, but what about
+              its impact on accessibility? <em>IsItAccessible.dev</em>{' '}
+              aggregates accessibility-related issues from GitHub to help you
+              quickly make an informed decision.
             </p>
             <p>
               Please note that the content of this site should be used as a

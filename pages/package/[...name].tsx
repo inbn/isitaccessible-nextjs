@@ -63,7 +63,7 @@ export default function Package({
       </Head>
 
       <Page>
-        <Center>
+        <Center stretchContentsHorizontally>
           <h1>{name}</h1>
           {!!description && <p>{description}</p>}
 
