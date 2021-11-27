@@ -8,6 +8,12 @@
   position: relative;
   border-radius: $border-radius-base;
   box-shadow: 2px 2px 8px 4px rgb(15 15 15 / 10%);
+
+  &.formHeader {
+    box-shadow: none;
+    max-width: 400px;
+    flex-grow: 1;
+  }
 }
 
 .input {
@@ -24,6 +30,12 @@
 
   &:focus {
     outline: 4px solid $blue-300;
+  }
+
+  .formHeader & {
+    font-size: $font-size-large;
+    height: $space-10;
+    padding: $space-2 $space-10 $space-2 $space-3;
   }
 }
 
@@ -60,11 +72,17 @@
   border-radius: 0 $border-radius-base $border-radius-base 0;
   transition: background-color $transition-time-fast $transition-ease,
     color $transition-time-fast $transition-ease;
+  color: $grey-700;
 
   &:hover,
   &:focus {
     background-color: $blue-300;
     color: $white;
+  }
+
+  .formHeader & {
+    width: $space-10;
+    height: $space-10;
   }
 }
 

@@ -1,0 +1,22 @@
+@use '../../styles/tokens' as *;
+
+.header {
+  border-bottom: 1px solid $grey-200;
+  padding: $space-4 0;
+  flex-grow: 0 !important;
+}
+
+.headerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space-2 $space-6;
+}
+
+.homeLink {
+  font-family: $font-display;
+  font-size: $font-size-large;
+  text-decoration: none;
+  color: $black;
+}

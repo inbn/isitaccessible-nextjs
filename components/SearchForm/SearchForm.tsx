@@ -2,17 +2,28 @@ import useKey from '@rooks/use-key'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 
 import { Package, getSuggestions } from '../../lib/npm-packages'
 import Icon from '../Icon/Icon'
 import VisuallyHidden from '../VisuallyHidden/VisuallyHidden'
 import styles from './SearchForm.module.scss'
 
-const SearchForm: React.FC = () => {
+interface Props {
+  initialValue?: string
+  variant?: 'default' | 'header'
+}
+
+const SearchForm: React.FC<Props> = ({
+  initialValue = '',
+  variant = 'default',
+}) => {
   const router = useRouter()
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(initialValue)
+  const [debouncedQuery] = useDebounce(query, 1000)
   const [isOpen, setIsOpen] = useState(false)
+  const [hasValueChanged, setHasValueChanged] = useState(false)
   const [results, setResults] = useState<Package[]>([])
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1)
   const searchFormRef = useRef() as React.MutableRefObject<HTMLFormElement>
@@ -22,7 +33,7 @@ const SearchForm: React.FC = () => {
     e.preventDefault()
     const selectedResult = results[selectedItemIndex]
     if (selectedResult) {
-      router.push(`package/${selectedResult.package.name}`)
+      router.push(`/package/${selectedResult.package.name}`)
     }
   }
 
@@ -131,8 +142,9 @@ const SearchForm: React.FC = () => {
   }, [isOpen])
 
   useEffect(() => {
+    if (!hasValueChanged) return
     async function fetchSuggestions() {
-      const suggestions = await getSuggestions(query)
+      const suggestions = await getSuggestions(debouncedQuery)
       setResults(suggestions)
 
       if (suggestions.length > 0) {
@@ -144,7 +156,7 @@ const SearchForm: React.FC = () => {
     }
 
     fetchSuggestions()
-  }, [query])
+  }, [debouncedQuery, hasValueChanged])
 
   useEffect(() => {
     if (selectedItemRef.current) {
@@ -165,7 +177,10 @@ const SearchForm: React.FC = () => {
       autoComplete="off"
       ref={searchFormRef}
       action="/package"
-      className={styles.form}
+      className={classNames({
+        [styles.form]: true,
+        [styles.formHeader]: variant === 'header',
+      })}
     >
       {!!results.length && query && (
         <p
@@ -192,7 +207,10 @@ const SearchForm: React.FC = () => {
           })}
           type="text"
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => {
+            setHasValueChanged(true)
+            setQuery(event.target.value)
+          }}
           placeholder="Start typing a package name"
         />
         <ol
@@ -223,10 +241,10 @@ const SearchForm: React.FC = () => {
       <button
         type="submit"
         className={styles.submit}
-        // onClick={(e) => {
-        //   e.preventDefault()
-        //   router.push(`package/${query}`)
-        // }}
+        onClick={(e) => {
+          e.preventDefault()
+          router.push(`/package/${query}`)
+        }}
       >
         <VisuallyHidden>Submit search</VisuallyHidden>
         <Icon name="search" />

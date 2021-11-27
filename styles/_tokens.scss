@@ -32,6 +32,11 @@ $font-size-large: 1.25rem;
 $font-size-xlarge: 1.5rem;
 $font-size-small: 0.875rem;
 
+// Font families
+/* stylelint-disable value-keyword-case */
+$font-text: Charter, Bitstream Charter, serif;
+$font-display: Fraunces, serif;
+
 // Spaces
 $space-1: 0.25rem;
 $space-2: 0.5rem;

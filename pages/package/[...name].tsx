@@ -2,7 +2,9 @@ import { Endpoints } from '@octokit/types'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 
+import Header from '../../components/Header/Header'
 import Icon from '../../components/Icon/Icon'
+import SearchForm from '../../components/SearchForm/SearchForm'
 import Center from '../../components/layouts/Center'
 import Page from '../../components/layouts/Page'
 import { fetchGitHubIssues } from '../../lib/github-issues'
@@ -63,6 +65,9 @@ export default function Package({
       </Head>
 
       <Page>
+        <Header
+          searchComponent={<SearchForm variant="header" initialValue={name} />}
+        />
         <Center stretchContentsHorizontally>
           <h1>{name}</h1>
           {!!description && <p>{description}</p>}
