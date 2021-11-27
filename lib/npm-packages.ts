@@ -1,35 +1,35 @@
 export interface Package {
   package: {
-    name: string;
-    scope: string;
-    version: string;
-    description: string;
-    keywords: string[];
-    date: string;
+    name: string
+    scope: string
+    version: string
+    description: string
+    keywords: string[]
+    date: string
     links: {
-      npm: string;
-      homepage?: string;
-      repository?: string;
-      bugs?: string;
-    };
+      npm: string
+      homepage?: string
+      repository?: string
+      bugs?: string
+    }
     publisher: {
-      username: string;
-      email: string;
-    };
+      username: string
+      email: string
+    }
     maintainers: {
-      username: string;
-      email: string;
-    }[];
-  };
+      username: string
+      email: string
+    }[]
+  }
   score: {
-    final: number;
+    final: number
     detail: {
-      quality: number;
-      popularity: number;
-      maintenance: number;
-    };
-  };
-  searchScore: number;
+      quality: number
+      popularity: number
+      maintenance: number
+    }
+  }
+  searchScore: number
 }
 
 const sortSuggestions = (packageA: Package, packageB: Package) => {
@@ -39,21 +39,36 @@ const sortSuggestions = (packageA: Package, packageB: Package) => {
     Math.abs(Math.log(packageB.searchScore) - Math.log(packageA.searchScore)) >
     1
   ) {
-    return packageB.searchScore - packageA.searchScore;
+    return packageB.searchScore - packageA.searchScore
   } else {
-    return packageB.score.detail.popularity - packageA.score.detail.popularity;
+    return packageB.score.detail.popularity - packageA.score.detail.popularity
   }
-};
+}
 
 export const getSuggestions = async (query: string) => {
   if (!query) {
-    return [];
+    return []
   }
 
   const response = await fetch(
     `https://api.npms.io/v2/search/suggestions?q=${query}`
-  );
+  )
 
-  const data = await response.json();
-  return data.sort(sortSuggestions);
-};
+  const data = await response.json()
+  return data.sort(sortSuggestions)
+}
+
+// An array of dependencies that suggest this is a monorepo
+const monorepoPackages = ['lerna', '@manypkg/cli']
+
+export const getDependencyWarnings = (dependencies: Object) => {
+  const warnings = []
+
+  for (const [key] of Object.entries(dependencies)) {
+    if (monorepoPackages.includes(key)) {
+      warnings.push('monorepo')
+    }
+  }
+
+  return warnings
+}

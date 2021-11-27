@@ -1,7 +1,11 @@
+@use '../../styles/tokens' as *;
+
 .main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: $space-6;
+  padding-bottom: $space-6;
 
   > * {
     flex: 1;

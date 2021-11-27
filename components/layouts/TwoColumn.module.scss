@@ -1,0 +1,17 @@
+@use '../../styles/_tokens' as *;
+
+.withSidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-4 $space-8;
+}
+
+.withSidebar > :last-child {
+  flex-grow: 1;
+}
+
+.withSidebar > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 75%;
+}

@@ -1,0 +1,7 @@
+@use '../../styles/tokens' as *;
+
+.alert {
+  padding: $space-2 $space-3;
+  border: 2px solid $teal-400;
+  border-radius: $border-radius-base;
+}

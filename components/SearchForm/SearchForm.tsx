@@ -34,6 +34,7 @@ const SearchForm: React.FC<Props> = ({
     const selectedResult = results[selectedItemIndex]
     if (selectedResult) {
       router.push(`/package/${selectedResult.package.name}`)
+      setIsOpen(false)
     }
   }
 
@@ -96,7 +97,8 @@ const SearchForm: React.FC<Props> = ({
         if (results.length) {
           const selectedResult = results[selectedItemIndex]
           if (selectedResult) {
-            router.push(`package/${selectedResult.package.name}`)
+            router.push(`/package/${selectedResult.package.name}`)
+            setIsOpen(false)
           }
         }
         break
@@ -244,6 +246,7 @@ const SearchForm: React.FC<Props> = ({
         onClick={(e) => {
           e.preventDefault()
           router.push(`/package/${query}`)
+          setIsOpen(false)
         }}
       >
         <VisuallyHidden>Submit search</VisuallyHidden>

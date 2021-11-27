@@ -4,6 +4,8 @@ const { Octokit } = require('@octokit/core')
 
 type SearchIssuesResponse = Endpoints['GET /search/issues']['response']
 type GetRepoResponse = Endpoints['GET /repos/{owner}/{repo}']['response']
+type GetFileContentsResponse =
+  Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response']
 
 export const fetchGitHubIssues = async (repo: string) => {
   let fullRepoName = repo
@@ -65,4 +67,29 @@ export const fetchGitHubIssues = async (repo: string) => {
   } while (issuesRemaining > 0)
 
   return gitHubIssues
+}
+
+export const fetchPackageJson = async (repo: string) => {
+  const octokit = new Octokit({
+    auth: process.env.GITHUB_API_TOKEN,
+  })
+
+  try {
+    const packageJsonResponse: GetFileContentsResponse = await octokit.request(
+      `GET /repos/${repo}/contents/package.json`
+    )
+
+    // I hate TypeScript
+    // See https://github.com/probot/probot/issues/1023
+    const data: any = packageJsonResponse.data
+    const packageJson = JSON.parse(
+      Buffer.from(data.content, data.encoding).toString()
+    )
+
+    return packageJson
+  } catch (error) {
+    console.log(error)
+
+    return null
+  }
 }
