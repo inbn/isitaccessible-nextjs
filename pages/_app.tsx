@@ -1,3 +1,4 @@
+import PlausibleProvider from 'next-plausible'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
@@ -5,7 +6,7 @@ import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <PlausibleProvider domain="isitaccessible.dev">
       <Head>
         <link
           rel="apple-touch-icon"
@@ -30,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <Component {...pageProps} />
-    </>
+    </PlausibleProvider>
   )
 }
 export default MyApp
