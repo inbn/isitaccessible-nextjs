@@ -34,6 +34,8 @@ const SearchForm: React.FC<Props> = ({
     const selectedResult = results[selectedItemIndex]
     if (selectedResult) {
       router.push(`/package/${selectedResult.package.name}`)
+      setQuery(selectedResult.package.name)
+      setHasValueChanged(false)
       setIsOpen(false)
     }
   }
@@ -98,6 +100,8 @@ const SearchForm: React.FC<Props> = ({
           const selectedResult = results[selectedItemIndex]
           if (selectedResult) {
             router.push(`/package/${selectedResult.package.name}`)
+            setQuery(selectedResult.package.name)
+            setHasValueChanged(false)
             setIsOpen(false)
           }
         }
