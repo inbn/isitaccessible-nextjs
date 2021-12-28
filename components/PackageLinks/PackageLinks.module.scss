@@ -1,0 +1,10 @@
+@use '../../styles/_tokens' as *;
+
+.packageLinks {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.socialIcon {
+  margin-right: $space-1;
+}

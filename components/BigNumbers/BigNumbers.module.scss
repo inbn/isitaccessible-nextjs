@@ -1,0 +1,21 @@
+@use '../../styles/tokens' as *;
+
+.bigNumbers {
+  display: flex;
+  gap: $space-8;
+}
+
+.bigNumber {
+  text-align: center;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  font-family: $font-display;
+  font-size: $font-size-3xl;
+}
+
+// .link {}

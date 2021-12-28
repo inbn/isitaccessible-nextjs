@@ -10,7 +10,7 @@
 .grid {
   --columns: 2;
   --column-gap: #{$space-16};
-  --row-gap: #{$space-16};
+  --row-gap: #{$space-5};
 
   @include main-grid(
     #{var(--columns)},
@@ -28,6 +28,7 @@
 .socialLink {
   display: inline-flex;
   align-items: center;
+  vertical-align: bottom;
 }
 
 .socialIcon {

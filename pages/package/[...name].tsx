@@ -3,8 +3,9 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 
 import Alert from '../../components/Alert/Alert'
+import BigNumbers from '../../components/BigNumbers/BigNumbers'
 import Header from '../../components/Header/Header'
-import Icon from '../../components/Icon/Icon'
+import PackageLinks from '../../components/PackageLinks/PackageLinks'
 import SearchForm from '../../components/SearchForm/SearchForm'
 import Title from '../../components/Title/Title'
 import Center from '../../components/layouts/Center'
@@ -95,6 +96,7 @@ export default function Package({
   closedIssues,
   warnings = [],
 }: Props) {
+  const totalIssues = openIssues.length + closedIssues.length
   return (
     <>
       <Head>
@@ -117,12 +119,17 @@ export default function Package({
                 <Stack>
                   <Title>{name}</Title>
                   {!!description && <p>{description}</p>}
-                  <h2>GitHub issues</h2>
+                  <div>
+                    <h2 style={{ display: 'inline' }}>
+                      {totalIssues} GitHub issue{totalIssues !== 1 && 's'}
+                    </h2>
 
-                  <p>
-                    mentioning ‘accessibility’, ‘a11y’, ‘aria’, or
-                    ‘screenreader’.
-                  </p>
+                    <span>
+                      {' '}
+                      mentioning ‘accessibility’, ‘a11y’, ‘aria’, or
+                      ‘screenreader’.
+                    </span>
+                  </div>
 
                   {!!warnings &&
                     warnings.length > 0 &&
@@ -130,29 +137,20 @@ export default function Package({
                       <Alert key={warning}>{getWarningText(warning)}</Alert>
                     ))}
 
-                  <dl>
-                    <div>
-                      <dt>Open</dt>
-                      <dd>
-                        <a
-                          href={`https://github.com/${repo}/issues?q=is%3Aissue+is%3Aopen+accessibility+OR+a11y+OR+aria+OR+screenreader`}
-                        >
-                          {openIssues.length}
-                        </a>
-                      </dd>
-                    </div>
-
-                    <div>
-                      <dt>Closed</dt>
-                      <dd>
-                        <a
-                          href={`https://github.com/${repo}/issues?q=is%3Aissue+is%3Aclosed+accessibility+OR+a11y+OR+aria+OR+screenreader`}
-                        >
-                          {closedIssues.length}
-                        </a>
-                      </dd>
-                    </div>
-                  </dl>
+                  <BigNumbers
+                    numbers={[
+                      {
+                        label: 'Open',
+                        value: openIssues.length,
+                        linkHref: `https://github.com/${repo}/issues?q=is%3Aissue+is%3Aopen+accessibility+OR+a11y+OR+aria+OR+screenreader`,
+                      },
+                      {
+                        label: 'Closed',
+                        value: closedIssues.length,
+                        linkHref: `https://github.com/${repo}/issues?q=is%3Aissue+is%3Aclosed+accessibility+OR+a11y+OR+aria+OR+screenreader`,
+                      },
+                    ]}
+                  />
 
                   {!!openIssues && openIssues.length > 0 && (
                     <>
@@ -177,28 +175,29 @@ export default function Package({
               <>
                 <h2>Links</h2>
 
-                <ul>
-                  <li>
-                    <a href={`https://www.npmjs.com/package/${name}`}>
-                      <Icon name="npm" />
-                      NPM
-                    </a>
-                  </li>
-                  <li>
-                    <a href={`https://github.com/${repo}`}>
-                      <Icon name="github" />
-                      GitHub
-                    </a>
-                  </li>
-                  {!!homepageUrl && (
-                    <li>
-                      <a href={processHomepageUrl(homepageUrl)}>
-                        <Icon name="home" />
-                        Homepage
-                      </a>
-                    </li>
-                  )}
-                </ul>
+                <PackageLinks
+                  links={[
+                    {
+                      label: 'npm',
+                      href: `https://www.npmjs.com/package/${name}`,
+                      icon: 'npm',
+                    },
+                    {
+                      label: 'GitHub',
+                      href: `https://github.com/${repo}`,
+                      icon: 'github',
+                    },
+                    ...(homepageUrl
+                      ? [
+                          {
+                            label: 'Homepage',
+                            href: processHomepageUrl(homepageUrl),
+                            icon: 'home',
+                          },
+                        ]
+                      : []),
+                  ]}
+                />
               </>
             }
           />
