@@ -1,10 +1,25 @@
+import ProgressBar from '@badrap/bar-of-progress'
 import PlausibleProvider from 'next-plausible'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 import '../styles/globals.scss'
 
+// #345096 = $blue-300
+const progress = new ProgressBar({ color: '#506cb0', size: 4 })
+
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
+  useEffect(() => {
+    // Progress bar events.
+    router.events.on('routeChangeStart', () => progress.start())
+    router.events.on('routeChangeComplete', () => progress.finish())
+    router.events.on('routeChangeError', () => progress.finish())
+  }, [router.events])
+
   return (
     <PlausibleProvider domain="isitaccessible.dev">
       <Head>
