@@ -125,7 +125,7 @@ interface Props {
   openIssues: SearchIssuesResponse['data']['items']
   closedIssues: SearchIssuesResponse['data']['items']
   warnings?: string[]
-  averageAge: number
+  averageAge: number | string
 }
 
 export default function Package({
@@ -141,6 +141,7 @@ export default function Package({
   const totalIssuesCount = openIssues.length + closedIssues.length
   const a11yScore = getA11yScore(closedIssues.length, totalIssuesCount)
 
+  console.log(averageAge)
   return (
     <>
       <Head>
@@ -186,7 +187,10 @@ export default function Package({
                     numbers={[
                       {
                         label: 'Score',
-                        value: `${a11yScore}%`,
+                        value:
+                          typeof a11yScore === 'string'
+                            ? a11yScore
+                            : `${a11yScore}%`,
                       },
                       {
                         label: 'Open',
@@ -200,7 +204,10 @@ export default function Package({
                       },
                       {
                         label: 'Average age',
-                        value: `${+averageAge.toFixed(1)} days`,
+                        value:
+                          typeof averageAge === 'string'
+                            ? averageAge
+                            : `${+averageAge.toFixed(1)} days`,
                       },
                     ]}
                   />
