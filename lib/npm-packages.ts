@@ -62,11 +62,12 @@ export const getSuggestions = async (query: string) => {
 const monorepoPackages = ['lerna', '@manypkg/cli']
 
 export const getDependencyWarnings = (dependencies: Object) => {
-  const warnings = []
+  const warnings: string[] = []
 
   for (const [key] of Object.entries(dependencies)) {
     if (monorepoPackages.includes(key)) {
       warnings.push('monorepo')
+      break
     }
   }
 

@@ -1,0 +1,13 @@
+@use '../../styles/tokens' as *;
+
+.aside {
+  font-size: $font-size-small;
+  background-color: $blue-50;
+  padding: $space-4;
+  border-radius: $space-1;
+  box-shadow: 2px 2px 8px 4px rgb(15 15 15 / 5%);
+
+  h2 {
+    font-size: $font-size-large;
+  }
+}

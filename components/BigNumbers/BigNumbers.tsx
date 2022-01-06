@@ -3,8 +3,8 @@ import styles from './BigNumbers.module.scss'
 interface Props {
   numbers: {
     label: string
-    value: number
-    linkHref: string
+    value: number | string
+    linkHref?: string
   }[]
 }
 
@@ -15,9 +15,13 @@ const BigNumbers: React.FC<Props> = ({ numbers }) => {
         <div key={label} className={styles.bigNumber}>
           <dt className={styles.label}>{label}</dt>
           <dd className={styles.value}>
-            <a href={linkHref} className={styles.link}>
-              {value}
-            </a>
+            {linkHref ? (
+              <a href={linkHref} className={styles.link}>
+                {value}
+              </a>
+            ) : (
+              value
+            )}
           </dd>
         </div>
       ))}

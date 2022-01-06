@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 
 import Alert from '../../components/Alert/Alert'
+import Aside from '../../components/Aside/Aside'
 import BigNumbers from '../../components/BigNumbers/BigNumbers'
 import Header from '../../components/Header/Header'
 import PackageLinks from '../../components/PackageLinks/PackageLinks'
@@ -34,15 +35,15 @@ const processHomepageUrl = (url: string) => {
   return url
 }
 
-const getDaysSinceDate = (date: string) => {
-  var pastDate = new Date(date)
-  var currentDate = new Date()
+const getDaysBetweenDates = (date1: string, date2: string | null = null) => {
+  var pastDate = new Date(date1)
+  var currentDate = date2 ? new Date(date2) : new Date()
 
   // Difference in milliseconds
   var difference = currentDate.getTime() - pastDate.getTime()
 
   // Convert to days
-  var days = Math.ceil(difference / (1000 * 3600 * 24))
+  var days = difference / (1000 * 3600 * 24)
 
   return days
 }
@@ -54,8 +55,8 @@ const getWarningText = (warning: string) => {
         <>
           This package looks like it comes from a{' '}
           <a href="https://en.wikipedia.org/wiki/Monorepo">monorepo</a>.<br />
-          Some of the issues mentioned below may not be related to this specific
-          npm package.
+          Some (or all) of the issues mentioned below may not be related to this
+          specific npm package.
         </>
       )
     case 'package-name':
@@ -77,6 +78,45 @@ const getWarningText = (warning: string) => {
   }
 }
 
+const getA11yScore = (closedIssuesCount: number, totalIssuesCount: number) => {
+  if (totalIssuesCount === 0) {
+    return 'N/A'
+  }
+
+  return +((100 * closedIssuesCount) / totalIssuesCount).toFixed(1)
+}
+
+const median = (values: number[]) => {
+  if (values.length === 0) throw new Error('No inputs')
+
+  // Make a new array to avoid mutating the original
+  const sortedValues = [...values].sort((a, b) => a - b)
+  // Get the middle value
+  var half = Math.floor(sortedValues.length / 2)
+  // If the array has an odd number of elements, return the middle one
+  if (sortedValues.length % 2) return sortedValues[half]
+  // Otherwise, return the average of the middle two
+  return (sortedValues[half - 1] + sortedValues[half]) / 2.0
+}
+
+const getAverageIssueAge = (issues: SearchIssuesResponse['data']['items']) => {
+  if (issues.length === 0) {
+    return 'N/A'
+  }
+
+  const daysSinceIssues = issues.map((issue) =>
+    getDaysBetweenDates(issue.created_at, issue.closed_at)
+  )
+
+  // Get the total number of days
+  // const totalDays = daysSinceIssues.reduce((total, days) => total + days)
+  // Get the average (mean) number of days
+  // return +(totalDays / issues.length).toFixed(1)
+
+  // Get the median number of days
+  return median(daysSinceIssues)
+}
+
 interface Props {
   name: string
   homepageUrl: string
@@ -85,6 +125,7 @@ interface Props {
   openIssues: SearchIssuesResponse['data']['items']
   closedIssues: SearchIssuesResponse['data']['items']
   warnings?: string[]
+  averageAge: number
 }
 
 export default function Package({
@@ -94,9 +135,12 @@ export default function Package({
   repo,
   openIssues,
   closedIssues,
+  averageAge,
   warnings = [],
 }: Props) {
-  const totalIssues = openIssues.length + closedIssues.length
+  const totalIssuesCount = openIssues.length + closedIssues.length
+  const a11yScore = getA11yScore(closedIssues.length, totalIssuesCount)
+
   return (
     <>
       <Head>
@@ -121,7 +165,8 @@ export default function Package({
                   {!!description && <p>{description}</p>}
                   <div>
                     <h2 style={{ display: 'inline' }}>
-                      {totalIssues} GitHub issue{totalIssues !== 1 && 's'}
+                      {totalIssuesCount} GitHub issue
+                      {totalIssuesCount !== 1 && 's'}
                     </h2>
 
                     <span>
@@ -140,6 +185,10 @@ export default function Package({
                   <BigNumbers
                     numbers={[
                       {
+                        label: 'Score',
+                        value: `${a11yScore}%`,
+                      },
+                      {
                         label: 'Open',
                         value: openIssues.length,
                         linkHref: `https://github.com/${repo}/issues?q=is%3Aissue+is%3Aopen+accessibility+OR+a11y+OR+aria+OR+screenreader`,
@@ -148,6 +197,10 @@ export default function Package({
                         label: 'Closed',
                         value: closedIssues.length,
                         linkHref: `https://github.com/${repo}/issues?q=is%3Aissue+is%3Aclosed+accessibility+OR+a11y+OR+aria+OR+screenreader`,
+                      },
+                      {
+                        label: 'Average age',
+                        value: `${+averageAge.toFixed(1)} days`,
                       },
                     ]}
                   />
@@ -161,7 +214,8 @@ export default function Package({
                           <li key={html_url}>
                             <a href={html_url}>{title}</a>
                             <span>
-                              ({getDaysSinceDate(created_at)} days old)
+                              ({Math.ceil(getDaysBetweenDates(created_at))} days
+                              old)
                             </span>
                           </li>
                         ))}
@@ -198,6 +252,22 @@ export default function Package({
                       : []),
                   ]}
                 />
+                <Aside>
+                  <h2>What the numbers mean</h2>
+                  <dl>
+                    <dt>Score</dt>
+                    <dd>
+                      This is the percentage of all accessibility-related issues
+                      that are closed.
+                    </dd>
+                    <dt>Average age</dt>
+                    <dd>
+                      This is the <strong>median</strong> time taken between an
+                      issue being opened and being closed. For issues that are
+                      still open, the current date is used.
+                    </dd>
+                  </dl>
+                </Aside>
               </>
             }
           />
@@ -277,6 +347,11 @@ export const getStaticProps: PackagePageStaticProps = async ({ params }) => {
   const openIssues = gitHubIssues.filter((issue) => issue.state === 'open')
   const closedIssues = gitHubIssues.filter((issue) => issue.state === 'closed')
 
+  const averageAge = getAverageIssueAge(gitHubIssues)
+
+  // created_at
+  // closed_at
+  // If closed_at is null, it's still open
   // console.log(res.status)
   // console.log(data)
 
@@ -291,6 +366,7 @@ export const getStaticProps: PackagePageStaticProps = async ({ params }) => {
         a.created_at > b.created_at ? 1 : -1
       ),
       closedIssues,
+      averageAge,
       warnings,
     },
   }
