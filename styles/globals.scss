@@ -6,6 +6,8 @@
 
 @use 'links';
 
+@use 'utilities' as *;
+
 html,
 body {
   padding: 0;
@@ -18,4 +20,14 @@ h2,
 h3 {
   font-family: $font-display;
   line-height: 1;
+}
+
+h3 {
+  font-size: $font-size-large;
+}
+
+ol,
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
 }

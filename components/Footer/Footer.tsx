@@ -32,8 +32,9 @@ const Footer: React.FC = () => {
               This site was inspired by{' '}
               <a href="https://bundlephobia.com/">bundlephobia</a>, an
               indispensable tool for understanding the size of an npm package
-              before it becomes a part of your bundle. It also wouldn’t be
-              possible without the <a href="https://npms.io/">npms.io</a> API.
+              before it becomes a part of your bundle. Thanks also to{' '}
+              <a href="https://npms.io/">npms.io</a> which powers search
+              suggestions and provides npm package info via its excellent API.
             </p>
             <h2>Contribute</h2>
             <p>

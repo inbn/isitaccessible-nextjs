@@ -99,6 +99,7 @@
   border-top: 0;
   border-radius: 0 0 $border-radius-base $border-radius-base;
   background-color: $white;
+  z-index: $z-index-search-suggestions;
 }
 
 .result {

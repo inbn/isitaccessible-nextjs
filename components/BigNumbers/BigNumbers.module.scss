@@ -2,11 +2,29 @@
 
 .bigNumbers {
   display: flex;
-  gap: $space-8;
+  flex-wrap: wrap;
+  gap: $space-4 $space-6;
 }
 
 .bigNumber {
   text-align: center;
+  background-color: $purple-50;
+  border: 2px solid $purple-200;
+  padding: $space-3 $space-4;
+  border-radius: $border-radius-base;
+  box-shadow: 2px 2px 8px 4px rgb(15 15 15 / 5%);
+  position: relative;
+  flex-grow: 1;
+
+  &.hasLink {
+    transition: background-color $transition-time $transition-ease,
+      box-shadow $transition-time $transition-ease;
+
+    &:hover {
+      background-color: $purple-100;
+      box-shadow: 1px 1px 6px 2px rgb(15 15 15 / 10%);
+    }
+  }
 }
 
 .label {
@@ -16,6 +34,34 @@
 .value {
   font-family: $font-display;
   font-size: $font-size-3xl;
+  line-height: 1;
+  color: $grey-700;
 }
 
-// .link {}
+.unit {
+  font-size: $font-size-base;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    border-radius: $border-radius-base;
+  }
+
+  &:focus {
+    outline: 0;
+
+    &::after {
+      outline: 4px solid $blue-300;
+    }
+  }
+}

@@ -3,8 +3,8 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 
 import Alert from '../../components/Alert/Alert'
-import Aside from '../../components/Aside/Aside'
 import BigNumbers from '../../components/BigNumbers/BigNumbers'
+import Card from '../../components/Card/Card'
 import Header from '../../components/Header/Header'
 import PackageLinks from '../../components/PackageLinks/PackageLinks'
 import SearchForm from '../../components/SearchForm/SearchForm'
@@ -54,8 +54,8 @@ const getWarningText = (warning: string) => {
       return (
         <>
           This package looks like it comes from a{' '}
-          <a href="https://en.wikipedia.org/wiki/Monorepo">monorepo</a>.<br />
-          Some (or all) of the issues mentioned below may not be related to this
+          <a href="https://en.wikipedia.org/wiki/Monorepo">monorepo</a>. Some
+          (or all) of the issues mentioned below may not be related to this
           specific npm package.
         </>
       )
@@ -161,9 +161,11 @@ export default function Package({
           <TwoColumn
             mainContent={
               <>
-                <Stack>
+                <Stack space="1.5rem">
                   <Title>{name}</Title>
-                  {!!description && <p>{description}</p>}
+                  {!!description && (
+                    <p className="fontSizeLg italic">{description}</p>
+                  )}
                   <div>
                     <h2 style={{ display: 'inline' }}>
                       {totalIssuesCount} GitHub issue
@@ -187,10 +189,19 @@ export default function Package({
                     numbers={[
                       {
                         label: 'Score',
+                        value: a11yScore,
+                        unit: !(typeof a11yScore === 'string')
+                          ? '%'
+                          : undefined,
+                      },
+                      {
+                        label: 'Average age',
                         value:
-                          typeof a11yScore === 'string'
-                            ? a11yScore
-                            : `${a11yScore}%`,
+                          typeof averageAge === 'string'
+                            ? averageAge
+                            : +averageAge.toFixed(1),
+                        unit:
+                          typeof averageAge === 'number' ? ' days' : undefined,
                       },
                       {
                         label: 'Open',
@@ -201,13 +212,6 @@ export default function Package({
                         label: 'Closed',
                         value: closedIssues.length,
                         linkHref: `https://github.com/${repo}/issues?q=is%3Aissue+is%3Aclosed+accessibility+OR+a11y+OR+aria+OR+screenreader`,
-                      },
-                      {
-                        label: 'Average age',
-                        value:
-                          typeof averageAge === 'string'
-                            ? averageAge
-                            : `${+averageAge.toFixed(1)} days`,
                       },
                     ]}
                   />
@@ -233,49 +237,58 @@ export default function Package({
               </>
             }
             sidebar={
-              <>
-                <h2>Links</h2>
+              <Stack space="1.5rem">
+                <Card>
+                  <Stack space="1em">
+                    <h2>Links</h2>
 
-                <PackageLinks
-                  links={[
-                    {
-                      label: 'npm',
-                      href: `https://www.npmjs.com/package/${name}`,
-                      icon: 'npm',
-                    },
-                    {
-                      label: 'GitHub',
-                      href: `https://github.com/${repo}`,
-                      icon: 'github',
-                    },
-                    ...(homepageUrl
-                      ? [
-                          {
-                            label: 'Homepage',
-                            href: processHomepageUrl(homepageUrl),
-                            icon: 'home',
-                          },
-                        ]
-                      : []),
-                  ]}
-                />
-                <Aside>
+                    <PackageLinks
+                      links={[
+                        {
+                          label: 'npm',
+                          href: `https://www.npmjs.com/package/${name}`,
+                          icon: 'npm',
+                        },
+                        {
+                          label: 'GitHub',
+                          href: `https://github.com/${repo}`,
+                          icon: 'github',
+                        },
+                        ...(homepageUrl
+                          ? [
+                              {
+                                label: 'Homepage',
+                                href: processHomepageUrl(homepageUrl),
+                                icon: 'home',
+                              },
+                            ]
+                          : []),
+                      ]}
+                    />
+                  </Stack>
+                </Card>
+                <Card tag="aside">
                   <h2>What the numbers mean</h2>
-                  <dl>
-                    <dt>Score</dt>
-                    <dd>
-                      This is the percentage of all accessibility-related issues
-                      that are closed.
-                    </dd>
-                    <dt>Average age</dt>
-                    <dd>
-                      This is the <strong>median</strong> time taken between an
-                      issue being opened and being closed. For issues that are
-                      still open, the current date is used.
-                    </dd>
+                  <dl className="mt1em">
+                    <div>
+                      <dt className="bold">Score</dt>
+                      <dd>
+                        This is the percentage of all accessibility-related
+                        issues that are closed. A higher number is better.
+                      </dd>
+                    </div>
+                    <div className="mt1em">
+                      <dt className="bold">Average age</dt>
+                      <dd>
+                        This is the <strong>median</strong> time taken between
+                        an issue being opened and being closed. For issues that
+                        are still open, the current date is used. A lower number
+                        is better.
+                      </dd>
+                    </div>
                   </dl>
-                </Aside>
-              </>
+                </Card>
+              </Stack>
             }
           />
         </Center>

@@ -3,15 +3,16 @@ import styles from './Stack.module.scss'
 interface Props {
   children: React.ReactNode
   space?: string
+  tag?: keyof JSX.IntrinsicElements
 }
 
-const Stack: React.FC<Props> = ({ children, space }) => {
+const Stack: React.FC<Props> = ({ children, space, tag: Wrapper = 'div' }) => {
   const customProperties = { '--space': space } as React.CSSProperties
 
   return (
-    <div className={styles.stack} style={customProperties}>
+    <Wrapper className={styles.stack} style={customProperties}>
       {children}
-    </div>
+    </Wrapper>
   )
 }
 

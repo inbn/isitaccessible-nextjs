@@ -26,6 +26,10 @@ $blue-800: #0b1b47;
 $blue-900: #020612;
 $teal-400: #77c9b3;
 $teal-300: #94e1c7;
+$purple-50: #e2dcfd;
+$purple-100: #cec3fc;
+$purple-200: #ab94f7;
+$purple-300: #8d6aef;
 $purple-500: #6030d0;
 
 // Font sizes
@@ -78,3 +82,6 @@ $transition-time: 0.25s;
 $transition-time-slow: 0.5s;
 $transition-time-fast: 0.125s;
 $transition-ease: ease-in-out;
+
+// Z-indices
+$z-index-search-suggestions: 100;

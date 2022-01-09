@@ -1,10 +1,10 @@
 @use '../../styles/tokens' as *;
 
-.aside {
+.card {
   font-size: $font-size-small;
-  background-color: $blue-50;
+  border: 2px solid $blue-100;
   padding: $space-4;
-  border-radius: $space-1;
+  border-radius: $border-radius-base;
   box-shadow: 2px 2px 8px 4px rgb(15 15 15 / 5%);
 
   h2 {

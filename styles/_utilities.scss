@@ -1,0 +1,17 @@
+@use './tokens' as *;
+
+.bold {
+  font-weight: 700;
+}
+
+.mt1em {
+  margin-top: 1em;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.fontSizeLg {
+  font-size: $font-size-large;
+}
