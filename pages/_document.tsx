@@ -26,7 +26,7 @@ class MyDocument extends Document {
           <meta
             name="twitter:image"
             content={`https://${
-              process.env.VERCEL_URL || 'isitaccessible.dev'
+              process.env.NEXT_PUBLIC_URL || 'isitaccessible.dev'
             }/share-image.png`}
           />
           <meta
