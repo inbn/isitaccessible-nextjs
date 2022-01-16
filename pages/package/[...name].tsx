@@ -141,7 +141,6 @@ export default function Package({
   const totalIssuesCount = openIssues.length + closedIssues.length
   const a11yScore = getA11yScore(closedIssues.length, totalIssuesCount)
 
-  console.log(averageAge)
   return (
     <>
       <Head>
