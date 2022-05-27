@@ -21,7 +21,7 @@ const SearchForm: React.FC<Props> = ({
   const router = useRouter()
 
   const [query, setQuery] = useState(initialValue)
-  const [debouncedQuery] = useDebounce(query, 1000)
+  const [debouncedQuery] = useDebounce(query, 300)
   const [isOpen, setIsOpen] = useState(false)
   const [hasValueChanged, setHasValueChanged] = useState(false)
   const [results, setResults] = useState<Package[]>([])
