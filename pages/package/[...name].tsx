@@ -395,7 +395,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // List of all npm packages: https://replicate.npmjs.com/_all_docs
   // Can be paginated: https://docs.couchdb.org/en/stable/ddocs/views/pagination.html#paging
   // TODO get most commonly searched packages from analytics
-  const packages = [['react']]
+  const packages = [['bootstrap'], ['react']]
   // Generate an array of paths we want to pre-render
   const paths = packages.map((name) => ({
     params: { name },
