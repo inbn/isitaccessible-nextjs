@@ -64,7 +64,8 @@ export const fetchGitHubIssues = async (repo: string) => {
         }
       }
     }
-  } while (issuesRemaining > 0)
+    // GitHub API will fallover if you try to request result beyond the 1000th
+  } while (issuesRemaining > 0 && gitHubIssues.length < 1000)
 
   return gitHubIssues
 }
