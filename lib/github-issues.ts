@@ -1,6 +1,5 @@
 import { Endpoints } from '@octokit/types'
-
-const { Octokit } = require('@octokit/core')
+import { Octokit } from '@octokit/core'
 
 type SearchIssuesResponse = Endpoints['GET /search/issues']['response']
 type GetRepoResponse = Endpoints['GET /repos/{owner}/{repo}']['response']
@@ -41,9 +40,9 @@ export const fetchGitHubIssues = async (repo: string) => {
       // update npm. Check the repo endpoint to see if it has moved
       // TODO what to do if this also fails?
       const [userName, repoName] = repo.split('/')
-      const gitHubRepoResponse: GetRepoResponse = await octokit.request(
+      const gitHubRepoResponse = (await octokit.request(
         `GET /repos/${userName}/${repoName}`
-      )
+      )) as GetRepoResponse
 
       if (gitHubRepoResponse.data.full_name !== repo) {
         fullRepoName = gitHubRepoResponse.data.full_name
@@ -76,9 +75,9 @@ export const fetchPackageJson = async (repo: string) => {
   })
 
   try {
-    const packageJsonResponse: GetFileContentsResponse = await octokit.request(
+    const packageJsonResponse = (await octokit.request(
       `GET /repos/${repo}/contents/package.json`
-    )
+    )) as GetFileContentsResponse
 
     // I hate TypeScript
     // See https://github.com/probot/probot/issues/1023

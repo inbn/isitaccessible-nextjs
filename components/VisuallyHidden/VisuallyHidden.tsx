@@ -1,6 +1,10 @@
 import styles from './VisuallyHidden.module.scss'
 
-const VisuallyHidden: React.FC = ({ children }) => (
+interface VisuallyHiddenProps {
+  children: React.ReactNode
+}
+
+const VisuallyHidden: React.FC<VisuallyHiddenProps> = ({ children }) => (
   <span className={styles.visuallyHidden}>{children}</span>
 )
 
