@@ -11,6 +11,7 @@ export const fetchGitHubIssues = async (repo: string) => {
   let gitHubIssues = []
   let page = 1
   let issuesRemaining = 0
+  let maxIterations = 10
 
   const octokit = new Octokit({
     auth: process.env.GITHUB_API_TOKEN,
@@ -22,9 +23,10 @@ export const fetchGitHubIssues = async (repo: string) => {
       const gitHubIssuesResponse: SearchIssuesResponse = await octokit.request(
         'GET /search/issues',
         {
-          q: `accessibility OR a11y OR aria OR screenreader repo:${fullRepoName} type:issue`,
+          q: `is:issue repo:${fullRepoName} (accessibility OR a11y OR aria OR screenreader)`,
           per_page: 100,
           page,
+          advanced_search: 'true',
         }
       )
       gitHubIssues.push(...gitHubIssuesResponse.data.items)
@@ -34,11 +36,14 @@ export const fetchGitHubIssues = async (repo: string) => {
           0
         )
         page += 1
+      } else {
+        issuesRemaining = 0
       }
     } catch (error) {
       // The search end point may error if a user moves a repo but doesn't
       // update npm. Check the repo endpoint to see if it has moved
       // TODO what to do if this also fails?
+      console.log('Search failed, checking if repo moved:', error)
       const [userName, repoName] = repo.split('/')
       const gitHubRepoResponse = (await octokit.request(
         `GET /repos/${userName}/${repoName}`
@@ -49,9 +54,10 @@ export const fetchGitHubIssues = async (repo: string) => {
 
         const gitHubIssuesResponse: SearchIssuesResponse =
           await octokit.request('GET /search/issues', {
-            q: `accessibility OR a11y OR aria OR screenreader repo:${fullRepoName} type:issue`,
+            q: `is:issue repo:${fullRepoName} (accessibility OR a11y OR aria OR screenreader)`,
             per_page: 100,
             page,
+            advanced_search: 'true',
           })
         gitHubIssues.push(...gitHubIssuesResponse.data.items)
         if (gitHubIssuesResponse.data.total_count > 100) {
@@ -60,10 +66,23 @@ export const fetchGitHubIssues = async (repo: string) => {
             0
           )
           page += 1
+        } else {
+          issuesRemaining = 0
         }
       }
     }
-    // GitHub API will fallover if you try to request result beyond the 1000th
+
+    // Safety check to prevent infinite loops
+    maxIterations--
+    if (maxIterations <= 0) {
+      console.error(
+        'Max iterations reached, breaking to prevent infinite loop. Results so far:',
+        gitHubIssues.length
+      )
+      break
+    }
+
+    // GitHub API will fall over if you try to request result beyond the 1000th
   } while (issuesRemaining > 0 && gitHubIssues.length < 1000)
 
   return gitHubIssues
