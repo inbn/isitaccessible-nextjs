@@ -140,11 +140,12 @@ export default function Package({
 }: Props) {
   const totalIssuesCount = openIssues.length + closedIssues.length
   const a11yScore = getA11yScore(closedIssues.length, totalIssuesCount)
+  const pageTitle = `${name} | Is it accessible?`
 
   return (
     <>
       <Head>
-        <title>{name} | Is it accessible?</title>
+        <title>{pageTitle}</title>
       </Head>
 
       <Page

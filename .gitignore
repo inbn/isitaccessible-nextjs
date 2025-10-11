@@ -33,3 +33,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# typescript
+*.tsbuildinfo
+
+# cloudflare workers
+/.open-next
+/.wrangler

@@ -15,9 +15,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     // Progress bar events.
-    router.events.on('routeChangeStart', () => progress.start())
-    router.events.on('routeChangeComplete', () => progress.finish())
-    router.events.on('routeChangeError', () => progress.finish())
+    const handleStart = () => progress.start()
+    const handleComplete = () => progress.finish()
+
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleComplete)
+    router.events.on('routeChangeError', handleComplete)
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart)
+      router.events.off('routeChangeComplete', handleComplete)
+      router.events.off('routeChangeError', handleComplete)
+    }
   }, [router.events])
 
   return (

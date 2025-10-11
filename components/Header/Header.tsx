@@ -12,8 +12,8 @@ const Header: React.FC<Props> = ({ searchComponent }) => {
     <header className={styles.header}>
       <Center>
         <div className={styles.headerContent}>
-          <Link href="/">
-            <a className={styles.homeLink}>Is it accessible?</a>
+          <Link href="/" className={styles.homeLink}>
+            Is it accessible?
           </Link>
           {searchComponent}
         </div>

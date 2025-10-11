@@ -21,6 +21,43 @@ Use the `Icon` component for rendering icons. To add a new icon, place it in the
 <Icon name="search" />
 ```
 
+## Deploy on Cloudflare Workers
+
+### Manually via command line
+
+To deploy this Next.js app on Cloudflare Workers, follow steps 7 and 8 from the “Deploy an existing NextJS project on Workers” section in the [Cloudflare Next.js deployment guide](https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/#deploy-an-existing-nextjs-project-on-workers):
+
+Test your site with the Cloudflare adapter:
+
+```bash
+npm run preview
+```
+
+Deploy your project:
+
+```bash
+npm run deploy
+```
+
+### Automatic Deployment via GitHub Actions
+
+This repository includes a GitHub Actions workflow that automatically deploys to Cloudflare Workers when you push to the `main` branch. To set this up:
+
+1. Get Cloudflare credentials:
+   - **API Token**: Go to [Cloudflare API Tokens](https://dash.cloudflare.com/?to=/:account/api-tokens) → Create Token → Use "Edit Cloudflare Workers" template
+   - **Account ID**: Found in your [Cloudflare Dashboard](https://dash.cloudflare.com) → Compute (Workers) → Workers & Pages
+
+2. Add GitHub Secrets:
+   - Go to Repo Settings → Secrets and variables → Actions
+   - Add the following secrets (as ‘Repository Secrets’):
+     - `CLOUDFLARE_API_TOKEN`: Your Cloudflare API token
+     - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare account ID
+     - `CLOUDFLARE_GITHUB_API_TOKEN`: Your GitHub Personal Access Token (for API calls in the app)
+
+3. **Deploy:** Push to the `main` branch and the workflow will automatically build and deploy the app
+
+For the complete setup process, including configuration files and dependencies, see the full [Cloudflare Next.js documentation](https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/#deploy-an-existing-nextjs-project-on-workers).
+
 # Readme from Create-next-app
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
@@ -51,9 +88,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
